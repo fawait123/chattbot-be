@@ -12,6 +12,7 @@ import { ChattModule } from './chatt/chatt.module';
 import { ConfigModule } from '@nestjs/config';
 import { CaptureModule } from './capture/capture.module';
 import { NotificationModule } from './notification/notification.module';
+import { RegisterModule } from './register/register.module';
 
 
 @Module({
@@ -30,6 +31,7 @@ import { NotificationModule } from './notification/notification.module';
     }),
     CaptureModule,
     NotificationModule,
+    RegisterModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -41,7 +43,11 @@ export class AppModule implements AppModule {
     consumer.apply(AuthMiddleware).exclude({
       path: '/login',
       method: RequestMethod.POST
-    }, {
+    },
+      {
+        path: '/register',
+        method: RequestMethod.POST
+      }, {
       path: '/public/(.*)',
       method: RequestMethod.GET
     }).forRoutes('*')
