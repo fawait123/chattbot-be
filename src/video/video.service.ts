@@ -9,17 +9,19 @@ import { IPaginate } from 'src/interface/paginate.interface';
 import { Pagination } from 'src/helpers/pagination.helper';
 import { Search } from 'src/helpers/search.helper';
 import { Request } from 'express';
+import { uploadFileBuffer } from 'src/helpers/upload.helper';
 
 @Injectable()
 export class VideoService {
 
   constructor(@InjectModel('Video') private videoModel: Model<IVideoInterface>) { }
 
-  async create(createVideoDto: CreateVideoDto) {
+  async create(createVideoDto: CreateVideoDto, source: Express.Multer.File) {
     try {
-      const thumbnail = await generateThumbnail(createVideoDto.source, './public/uploads/thumbnails', 'public/uploads/thumbnails/' + generateRandomString(10) + '.png')
+      const fileName = await uploadFileBuffer('./public/video', source.buffer, source.mimetype)
+      createVideoDto.source = fileName as string
+      const thumbnail = await generateThumbnail(createVideoDto.source, './public/thumbnails', 'public/thumbnails/' + generateRandomString(10) + '.png')
       createVideoDto.thumbnail = thumbnail
-      console.log(createVideoDto)
       return await this.videoModel.create(createVideoDto)
     } catch (error) {
       return new InternalServerErrorException(error.message)
@@ -53,8 +55,12 @@ export class VideoService {
     }
   }
 
-  async update(id: string, updateVideoDto: UpdateVideoDto) {
+  async update(id: string, updateVideoDto: UpdateVideoDto, source: Express.Multer.File) {
     try {
+      const fileName = await uploadFileBuffer('./public/video', source.buffer, source.mimetype)
+      updateVideoDto.source = fileName as string
+      const thumbnail = await generateThumbnail(updateVideoDto.source, './public/thumbnails', 'public/thumbnails/' + generateRandomString(10) + '.png')
+      updateVideoDto.thumbnail = thumbnail
       return await this.videoModel.findByIdAndUpdate(id, updateVideoDto, { new: true })
     } catch (error) {
       return new InternalServerErrorException(error.message)

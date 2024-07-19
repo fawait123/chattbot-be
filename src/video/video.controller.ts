@@ -21,8 +21,7 @@ export class VideoController {
     .build({
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
     }),) source: Express.Multer.File) {
-    createVideoDto.source = source.path
-    return this.videoService.create(createVideoDto);
+    return this.videoService.create(createVideoDto, source);
   }
 
   @Get()
@@ -47,8 +46,7 @@ export class VideoController {
     .build({
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
     }),) source: Express.Multer.File) {
-    updateVideoDto.source = source.path
-    return this.videoService.update(id, updateVideoDto);
+    return this.videoService.update(id, updateVideoDto, source);
   }
 
   @Delete(':id')

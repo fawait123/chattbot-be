@@ -1,4 +1,14 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateVideoDto } from './create-video.dto';
+import { Optional } from "@nestjs/common"
+import { IsNotEmpty } from "class-validator"
 
-export class UpdateVideoDto extends PartialType(CreateVideoDto) {}
+export class UpdateVideoDto {
+    @IsNotEmpty()
+    readonly title: string
+    @IsNotEmpty()
+    readonly description: string
+    @Optional()
+    source: string
+    @Optional()
+    thumbnail: string
+}
+
