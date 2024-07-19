@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -31,9 +31,23 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     try {
+      const exist = await this.userModel.findOne({
+        $or: [
+          {
+            username: createUserDto.username
+          }, {
+            email: createUserDto.email
+          }
+        ]
+      })
+
+      if (exist) {
+        throw new BadRequestException(`Data ${createUserDto.username} atau ${createUserDto.email} sudah di gunakan`)
+      }
+
       return await this.userModel.create({ ...createUserDto, password: await hashPassword(createUserDto.password) })
     } catch (error) {
-      return new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -52,7 +66,7 @@ export class UserService {
         data: data
       }
     } catch (error) {
-      return new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -60,15 +74,29 @@ export class UserService {
     try {
       return await this.userModel.findById(id)
     } catch (error) {
-      return new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
+      console.log(id)
+      const exist = await this.userModel.findOne({
+        $or: [
+          { username: updateUserDto.username },
+          { email: updateUserDto.email }
+        ],
+        _id: { $ne: id }
+      })
+
+      console.log(exist)
+
+      if (exist) {
+        throw new BadRequestException(`Data ${updateUserDto.username} atau ${updateUserDto.email} sudah di gunakan`)
+      }
       return await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true })
     } catch (error) {
-      return new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 
@@ -76,7 +104,7 @@ export class UserService {
     try {
       return await this.userModel.findByIdAndDelete(id)
     } catch (error) {
-      return new InternalServerErrorException(error.message)
+      throw new InternalServerErrorException(error.message)
     }
   }
 }
