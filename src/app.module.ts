@@ -10,6 +10,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ChattModule } from './chatt/chatt.module';
 import { ConfigModule } from '@nestjs/config';
+import { CaptureModule } from './capture/capture.module';
+import { NotificationModule } from './notification/notification.module';
 
 
 @Module({
@@ -26,6 +28,8 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true
     }),
+    CaptureModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

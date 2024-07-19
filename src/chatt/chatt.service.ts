@@ -6,6 +6,10 @@ import { IUserProfile } from 'src/interface/user-profile.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { IChatt } from 'src/interface/chatt.interface';
+import { Pagination } from 'src/helpers/pagination.helper';
+import { Search } from 'src/helpers/search.helper';
+import { IPaginate } from 'src/interface/paginate.interface';
+import { Request } from 'express';
 
 
 
@@ -42,8 +46,22 @@ export class ChattService {
     return 'This action adds a new chatt';
   }
 
-  findAll() {
-    return `This action returns all chatt`;
+  async findAll(req: Request) {
+    try {
+      const paginate = new Pagination(req)
+      const search = new Search(req, ['response', 'message'])
+      const data = await this.chattModel.find(search.search).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
+      const total = await this.chattModel.countDocuments(search.search)
+
+      return <IPaginate<IChatt>>{
+        page: paginate.getPage().page,
+        limit: paginate.getPage().limit,
+        total: total,
+        data: data
+      }
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
 
   findOne(id: number) {
