@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 @Schema()
-export class Chatt {
-    @Prop({ required: true })
-    message: string
+export class Capture {
+    @Prop({ required: true, default: new Date() })
+    date: string
 
     @Prop({ required: true })
-    response: string
+    source: string
 
     @Prop({ required: true })
     userID: string
@@ -18,4 +18,4 @@ export class Chatt {
     updatedAt: string
 }
 
-export const ChattSchema = SchemaFactory.createForClass(Chatt)
+export const CaptureSchema = SchemaFactory.createForClass(Capture)
