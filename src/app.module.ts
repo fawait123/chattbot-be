@@ -13,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
 import { CaptureModule } from './capture/capture.module';
 import { NotificationModule } from './notification/notification.module';
 import { RegisterModule } from './register/register.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { QuestionModule } from './question/question.module';
 
 
 @Module({
@@ -32,6 +34,8 @@ import { RegisterModule } from './register/register.module';
     CaptureModule,
     NotificationModule,
     RegisterModule,
+    DashboardModule,
+    QuestionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
