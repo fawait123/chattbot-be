@@ -16,7 +16,6 @@ import { RegisterModule } from './register/register.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { QuestionModule } from './question/question.module';
 
-
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/pregnancy'),
@@ -36,6 +35,7 @@ import { QuestionModule } from './question/question.module';
     RegisterModule,
     DashboardModule,
     QuestionModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
