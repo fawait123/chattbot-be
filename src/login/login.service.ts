@@ -43,4 +43,43 @@ export class LoginService {
             throw new InternalServerErrorException(error.message)
         }
     }
+
+    async loginMobile(creadential: LoginDto) {
+        try {
+            const user = await this.userModel.findOne({
+                username: creadential.username
+            })
+
+            if (!user) {
+                throw new NotFoundException('Data credential tidak valid')
+            }
+
+            if (!await comparePassword(creadential.password, user.password)) {
+                throw new NotFoundException('Data credential tidak valid')
+            }
+
+            if (user.status == false) {
+                throw new NotAcceptableException('Akun anda tidak aktif, silahkan hubungi admin')
+            }
+
+            if (user.role != "user") {
+                throw new NotAcceptableException("Anda tidak di ijinkan mengakses aplikasi mobile")
+            }
+
+            const payload = {
+                username: user.username,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+                sub: user.id
+            }
+
+            return {
+                token: await this.jwtService.signAsync(payload),
+                user: payload
+            }
+        } catch (error) {
+            throw new InternalServerErrorException(error.message)
+        }
+    }
 }

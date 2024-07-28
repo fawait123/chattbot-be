@@ -6,8 +6,13 @@ import { LoginDto } from './dto/login.dto';
 export class LoginController {
   constructor(private readonly loginService: LoginService) { }
 
-  @Post('')
+  @Post()
   login(@Body() loginDto: LoginDto) {
     return this.loginService.login(loginDto)
+  }
+
+  @Post("mobile")
+  loginMobile(@Body() loginDto: LoginDto) {
+    return this.loginService.loginMobile(loginDto)
   }
 }
