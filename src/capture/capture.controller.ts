@@ -16,8 +16,8 @@ export class CaptureController {
   }
 
   @Get()
-  findAll() {
-    return this.captureService.findAll();
+  findAll(@Req() req: Request) {
+    return this.captureService.findAll(req);
   }
 
   @Get(':id')

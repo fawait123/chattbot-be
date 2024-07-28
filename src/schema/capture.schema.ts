@@ -1,4 +1,5 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Prop, SchemaFactory, Schema } from "@nestjs/mongoose";
+import { Schema as MongoSchema, Types } from "mongoose";
 
 @Schema()
 export class Capture {
@@ -8,14 +9,17 @@ export class Capture {
     @Prop({ required: true })
     source: string
 
-    @Prop({ required: true })
-    userID: string
+    @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', alias: 'relation', required: true })
+    userID: Types.ObjectId
 
     @Prop({ required: true, default: new Date() })
     createdAt: string
 
     @Prop({ required: true, default: new Date() })
     updatedAt: string
+
+    @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User' })
+    user: Types.ObjectId
 }
 
 export const CaptureSchema = SchemaFactory.createForClass(Capture)

@@ -5,6 +5,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ICapture } from 'src/interface/capture.interface';
 import { uploadFileBuffer } from 'src/helpers/upload.helper';
+import { Pagination } from 'src/helpers/pagination.helper';
+import { Search } from 'src/helpers/search.helper';
+import { IPaginate } from 'src/interface/paginate.interface';
+import { Request } from 'express';
 
 @Injectable()
 export class CaptureService {
@@ -22,8 +26,23 @@ export class CaptureService {
     }
   }
 
-  findAll() {
-    return `This action returns all capture`;
+  async findAll(req: Request) {
+    try {
+      const paginate = new Pagination(req)
+      const search = new Search(req, ['username', 'email', 'name'])
+      console.log('serch', JSON.stringify(search.search))
+      const data = await this.captureModel.find(search.search).populate('userID').skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
+      const total = await this.captureModel.countDocuments(search.search)
+
+      return <IPaginate<ICapture>>{
+        page: paginate.getPage().page,
+        limit: paginate.getPage().limit,
+        total: total,
+        data: data
+      }
+    } catch (error) {
+      return new InternalServerErrorException(error.message)
+    }
   }
 
   findOne(id: number) {
