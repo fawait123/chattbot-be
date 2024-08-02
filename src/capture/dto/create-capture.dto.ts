@@ -8,3 +8,8 @@ export class CreateCaptureDto {
     @IsOptional()
     userID: string
 }
+
+export class CreateNoteCaptureDto {
+    @IsNotEmpty()
+    note: string
+}

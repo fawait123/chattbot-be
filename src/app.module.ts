@@ -46,10 +46,15 @@ import { GenerateModule } from './generate/generate.module';
 // export class AppModule { }
 export class AppModule implements AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).exclude({
-      path: '/login',
-      method: RequestMethod.POST
-    },
+    consumer.apply(AuthMiddleware).exclude(
+      {
+        path: '/login',
+        method: RequestMethod.POST
+      },
+      {
+        path: '/login/mobile',
+        method: RequestMethod.POST
+      },
       {
         path: '/register',
         method: RequestMethod.POST

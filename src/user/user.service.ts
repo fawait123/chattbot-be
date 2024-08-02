@@ -80,7 +80,6 @@ export class UserService {
 
   async update(id: string, updateUserDto: UpdateUserDto) {
     try {
-      console.log(id)
       const exist = await this.userModel.findOne({
         $or: [
           { username: updateUserDto.username },

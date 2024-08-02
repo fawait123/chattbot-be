@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCaptureDto } from './create-capture.dto';
+import { IsNotEmpty } from 'class-validator';
 
-export class UpdateCaptureDto extends PartialType(CreateCaptureDto) {}
+export class UpdateCaptureDto {
+    @IsNotEmpty()
+    note: string
+}
