@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
 import { CaptureService } from './capture.service';
-import { CreateCaptureDto } from './dto/create-capture.dto';
+import { CreateCaptureDto, CreateNoteCaptureDto } from './dto/create-capture.dto';
 import { UpdateCaptureDto } from './dto/update-capture.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
@@ -27,7 +27,7 @@ export class CaptureController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCaptureDto: UpdateCaptureDto) {
-    return this.captureService.update(+id, updateCaptureDto);
+    return this.captureService.update(id, updateCaptureDto);
   }
 
   @Delete(':id')

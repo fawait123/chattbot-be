@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateCaptureDto } from './dto/create-capture.dto';
 import { UpdateCaptureDto } from './dto/update-capture.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -59,8 +59,22 @@ export class CaptureService {
     return `This action returns a #${id} capture`;
   }
 
-  update(id: number, updateCaptureDto: UpdateCaptureDto) {
-    return `This action updates a #${id} capture`;
+  async update(id: string, updateCaptureDto: UpdateCaptureDto) {
+    try {
+      console.log(id)
+      const capture = await this.captureModel.findById(id)
+      if (!capture) {
+        throw new BadRequestException('Data tidak ditemukan')
+      }
+      return await this.captureModel.findByIdAndUpdate(id, {
+        date: capture.date,
+        userID: capture.userID,
+        source: capture.source,
+        note: updateCaptureDto.note
+      }, { new: true })
+    } catch (error) {
+      throw new InternalServerErrorException(error.message)
+    }
   }
 
   remove(id: number) {

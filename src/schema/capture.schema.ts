@@ -12,6 +12,9 @@ export class Capture {
     @Prop({ type: MongoSchema.Types.ObjectId, ref: 'User', alias: 'relation', required: true })
     userID: Types.ObjectId
 
+    @Prop({ required: false })
+    note: string
+
     @Prop({ required: true, default: new Date() })
     createdAt: string
 
