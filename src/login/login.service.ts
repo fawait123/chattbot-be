@@ -27,6 +27,10 @@ export class LoginService {
                 throw new NotAcceptableException('Akun anda tidak aktif, silahkan hubungi admin')
             }
 
+            if (user.role == "user") {
+                throw new NotAcceptableException("Anda tidak di ijinkan mengakses aplikasi Web")
+            }
+
             const payload = {
                 username: user.username,
                 email: user.email,

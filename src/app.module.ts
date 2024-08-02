@@ -15,6 +15,7 @@ import { NotificationModule } from './notification/notification.module';
 import { RegisterModule } from './register/register.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { QuestionModule } from './question/question.module';
+import { GenerateModule } from './generate/generate.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { QuestionModule } from './question/question.module';
     RegisterModule,
     DashboardModule,
     QuestionModule,
+    GenerateModule,
 
   ],
   controllers: [AppController],
@@ -54,6 +56,11 @@ export class AppModule implements AppModule {
       }, {
       path: '/public/(.*)',
       method: RequestMethod.GET
-    }).forRoutes('*')
+    },
+      {
+        path: '/generate',
+        method: RequestMethod.POST
+      }
+    ).forRoutes('*')
   }
 }
