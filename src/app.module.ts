@@ -16,6 +16,8 @@ import { RegisterModule } from './register/register.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { QuestionModule } from './question/question.module';
 import { GenerateModule } from './generate/generate.module';
+import { ProfileModule } from './profile/profile.module';
+
 
 @Module({
   imports: [
@@ -37,6 +39,7 @@ import { GenerateModule } from './generate/generate.module';
     DashboardModule,
     QuestionModule,
     GenerateModule,
+    ProfileModule,
 
   ],
   controllers: [AppController],
