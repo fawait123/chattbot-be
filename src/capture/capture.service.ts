@@ -31,18 +31,8 @@ export class CaptureService {
       const paginate = new Pagination(req)
       const search = new Search(req, ['username', 'email', 'name'])
       console.log('serch', JSON.stringify(search.filter))
-      const data = await this.captureModel.find({
-        $and: [
-          search.search,
-          search.filter
-        ]
-      }).populate('userID').skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
-      const total = await this.captureModel.countDocuments({
-        $and: [
-          search.search,
-          search.filter
-        ]
-      })
+      const data = await this.captureModel.find(search.search).populate('userID').skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
+      const total = await this.captureModel.countDocuments(search.search)
 
       return <IPaginate<ICapture>>{
         page: paginate.getPage().page,

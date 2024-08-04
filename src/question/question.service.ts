@@ -26,7 +26,7 @@ export class QuestionService {
   async findAll(req: Request) {
     try {
       const paginate = new Pagination(req)
-      const search = new Search(req, ['username', 'email', 'name'])
+      const search = new Search(req, ['description'])
       console.log('serch', JSON.stringify(search.search))
       const data = await this.questionModel.find(search.search).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
       const total = await this.questionModel.countDocuments(search.search)
