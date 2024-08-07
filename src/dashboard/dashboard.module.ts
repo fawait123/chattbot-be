@@ -6,6 +6,7 @@ import { UserSchema } from 'src/schema/user.schema';
 import { VideoSchema } from 'src/schema/video.schema';
 import { CaptureSchema } from 'src/schema/capture.schema';
 import { QuestionSchema } from 'src/schema/question.schema';
+import { ChattSchema } from 'src/schema/chatt.schema';
 
 @Module({
   imports: [
@@ -25,6 +26,10 @@ import { QuestionSchema } from 'src/schema/question.schema';
       {
         name: 'Question',
         schema: QuestionSchema
+      },
+      {
+        name: "Chatt",
+        schema: ChattSchema
       }
     ])
   ],
