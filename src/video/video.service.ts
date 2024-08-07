@@ -33,7 +33,7 @@ export class VideoService {
       const paginate = new Pagination(req)
       const search = new Search(req, ['username', 'email', 'name'])
       console.log('serch', JSON.stringify(search.search))
-      const data = await this.videoModel.find(search.search).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
+      const data = await this.videoModel.find(search.search).sort({ createdAt: "asc" }).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
       const total = await this.videoModel.countDocuments(search.search)
 
       return <IPaginate<IVideoInterface>>{

@@ -28,7 +28,7 @@ export class QuestionService {
       const paginate = new Pagination(req)
       const search = new Search(req, ['description'])
       console.log('serch', JSON.stringify(search.search))
-      const data = await this.questionModel.find(search.search).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
+      const data = await this.questionModel.find(search.search).sort({ createdAt: "asc" }).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
       const total = await this.questionModel.countDocuments(search.search)
 
       return <IPaginate<IQuestion>>{

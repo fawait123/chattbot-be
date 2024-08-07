@@ -11,4 +11,9 @@ export class DashboardController {
     index() {
         return this.dashboardService.index()
     }
+
+    @Get("user/activity")
+    userActivity() {
+        return this.dashboardService.userActivity()
+    }
 }

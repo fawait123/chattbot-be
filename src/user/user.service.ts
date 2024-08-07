@@ -56,7 +56,7 @@ export class UserService {
       const paginate = new Pagination(req)
       const search = new Search(req, ['username', 'email', 'name'])
       console.log('serch', JSON.stringify(search.search))
-      const data = await this.userModel.find(search.search).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
+      const data = await this.userModel.find(search.search).sort({ createdAt: "asc" }).skip(paginate.getPagination().offset).limit(paginate.getPagination().limit)
       const total = await this.userModel.countDocuments(search.search)
 
       return <IPaginate<IUserInterface>>{
