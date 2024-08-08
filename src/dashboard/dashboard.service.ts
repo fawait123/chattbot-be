@@ -5,7 +5,7 @@ import { ICapture } from 'src/interface/capture.interface';
 import { IQuestion } from 'src/interface/question.interface';
 import { IUserInterface } from 'src/interface/user.interface';
 import { IVideoInterface } from 'src/interface/video.interface';
-import moment from 'moment';
+import * as moment from 'moment';
 import { IChatt } from 'src/interface/chatt.interface';
 
 
