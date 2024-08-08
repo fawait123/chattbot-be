@@ -12,7 +12,7 @@ export class LoginService {
     async login(creadential: LoginDto) {
         try {
             const user = await this.userModel.findOne({
-                $and: [
+                $or: [
                     {
                         username: creadential.username
                     },
