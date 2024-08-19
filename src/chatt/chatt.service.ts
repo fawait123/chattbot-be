@@ -28,7 +28,7 @@ export class ChattService {
               return await this.chattModel.create({
                 userID: user.id,
                 message: chattDto.message,
-                response: item.text,
+                response: item.text.replaceAll('\n\n', ' ').replaceAll('*', '').replaceAll("#", ''),
                 createdAt: new Date(),
                 updatedAt: new Date()
               })
