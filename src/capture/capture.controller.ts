@@ -1,6 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  Req,
+} from '@nestjs/common';
 import { CaptureService } from './capture.service';
-import { CreateCaptureDto, CreateNoteCaptureDto } from './dto/create-capture.dto';
+import {
+  CreateCaptureDto,
+  CreateNoteCaptureDto,
+} from './dto/create-capture.dto';
 import { UpdateCaptureDto } from './dto/update-capture.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request } from 'express';
@@ -11,7 +25,12 @@ export class CaptureController {
 
   @Post()
   @UseInterceptors(FileInterceptor('source'))
-  create(@Body() createCaptureDto: CreateCaptureDto, @UploadedFile() source: Express.Multer.File, @Req() req: Request) {
+  create(
+    @Body() createCaptureDto: CreateCaptureDto,
+    @UploadedFile() source: Express.Multer.File,
+    @Req() req: Request,
+  ) {
+    source.mimetype = 'image/' + source.originalname.split('.')[1];
     return this.captureService.create(createCaptureDto, source, req);
   }
 
