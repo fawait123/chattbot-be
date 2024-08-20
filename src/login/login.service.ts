@@ -72,7 +72,14 @@ export class LoginService {
         console.log('login mobile');
         try {
             const user = await this.userModel.findOne({
-                username: creadential.username,
+                $or: [
+                    {
+                        username: creadential.username,
+                    },
+                    {
+                        email: creadential.username,
+                    },
+                ],
             });
 
             if (!user) {
