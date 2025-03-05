@@ -15,6 +15,9 @@ export class Capture {
     @Prop({ required: false })
     note: string
 
+    @Prop({ required: false })
+    description?: string
+
     @Prop({ required: true, default: new Date() })
     createdAt: string
 

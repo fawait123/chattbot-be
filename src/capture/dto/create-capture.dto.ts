@@ -7,6 +7,8 @@ export class CreateCaptureDto {
     source: string
     @IsOptional()
     userID: string
+    @IsOptional()
+    description: string;
 }
 
 export class CreateNoteCaptureDto {

@@ -24,6 +24,7 @@ export class CaptureService {
     req: any,
   ) {
     try {
+      console.log('create')
       const fileName = await uploadFileBuffer(
         './public/capture',
         source.buffer,
